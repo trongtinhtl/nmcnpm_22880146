@@ -1,0 +1,38 @@
+﻿@{
+}
+<div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+        <h3>LOGIN</h3>
+        <div style="text-align:right">
+            <a class="text-primary" href="@Url.Action("Register", "Account")">Register <i class="fa fa-long-arrow-right"></i></a>
+        </div>
+        <div class="my-5">
+
+            <form id="loginForm" method="POST" action="@Url.Action("Login", "Account",new { returnUrl = ViewBag.ReturnUrl })">
+                <input type="text" value=@ViewBag.ReturnUrl name="returnUrl" hidden="hidden" />
+                <div class="form-floating">
+                    <input class="form-control" id="name" type="text" placeholder="Enter your username..." name="UserName" />
+                    <label for="name">UserName</label>
+                    <div class="invalid-feedback">A name is required.</div>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="phone" type="password" placeholder="Enter your password..." name="Password" />
+                    <label for="phone">Password</label>
+                    <div class="invalid-feedback">A password is required.</div>
+                </div>
+                <br />
+                @if (ViewData.ModelState[""] != null && @ViewData.ModelState[""].Errors != null && @ViewData.ModelState[""].Errors.Count > 0 && !string.IsNullOrEmpty(ViewData.ModelState[""].Errors[0].ErrorMessage))
+                {
+                    <div class="" id="submitErrorMessage">
+                        <div class="text-danger mb-3">@ViewData.ModelState[""].Errors[0].ErrorMessage</div>
+                    </div>
+                }
+                <button class="btn btn-primary text-uppercase disabled" id="submitButton" type="submit">LOGIN</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/login.js"></script>
+}

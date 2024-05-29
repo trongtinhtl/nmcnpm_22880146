@@ -1,0 +1,43 @@
+﻿@{
+}
+<div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+        <h3>REGISTER</h3>
+        <div style="text-align:right">
+            <a class="text-primary" href="@Url.Action("Login", "Account")">You have account? <i class="fa fa-long-arrow-right"></i></a>
+        </div>
+        <div class="my-5">
+
+            <form id="loginForm" method="POST" action="@Url.Action("Register", "Account")">
+                <input type="text" value=@ViewBag.ReturnUrl name="returnUrl" hidden="hidden" />
+                <div class="form-floating">
+                    <input class="form-control" id="name" type="text" placeholder="Enter your username..." name="UserName" />
+                    <label for="name">UserName</label>
+                    <div class="invalid-feedback">A name is required.</div>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="password" type="password" placeholder="Enter your password..." name="Password" />
+                    <label for="password">Password</label>
+                    <div class="invalid-feedback">A password is required.</div>
+                </div>
+                <div class="form-floating">
+                    <input class="form-control" id="confirmPassrord" type="password" placeholder="Confirm your password..." name="ConfirmPassword" />
+                    <label for="confirmPassrord">Confirm Password</label>
+                    <div class="invalid-feedback">A confirm password is required.</div>
+                </div>
+                <br />
+                @if (ViewData.ModelState[""] != null && @ViewData.ModelState[""].Errors != null && @ViewData.ModelState[""].Errors.Count > 0 && !string.IsNullOrEmpty(ViewData.ModelState[""].Errors[0].ErrorMessage))
+                {
+                    <div class="" id="submitErrorMessage">
+                        <div class="text-danger mb-3">@ViewData.ModelState[""].Errors[0].ErrorMessage</div>
+                    </div>
+                }
+                <button class="btn btn-primary text-uppercase disabled" id="submitButton" type="submit">REGISTER</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/login.js"></script>
+}
