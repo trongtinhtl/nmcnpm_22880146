@@ -1,8 +1,24 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<h2 class="py-5">IT Conferences 2024/2025</h2>
+<div class="row">
+    <div class="col-md-3">
+        <div id="aggregations">
+
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div id="conferences">
+        </div>
+        <div class="loader-container" id="loading" style="display: none">
+            <span class="loader"></span>
+        </div>
+    </div>
 </div>
+
+@section Scripts
+{
+    <script src="~/js/index.js"></script>
+}
