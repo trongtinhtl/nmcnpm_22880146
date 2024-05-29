@@ -42,7 +42,7 @@ namespace ITConferences.Controllers
 
 				if (request != null)
 				{
-					res = _provider.GetITConferences(request.query, request.country, request.type, request.tech, out totalCount, request.start, request.length);
+					res = _provider.GetITConferences(request.query, request.countryId, request.type, request.topicId, out totalCount, request.start, request.length);
                 }
 
 				return Json(new
@@ -67,7 +67,7 @@ namespace ITConferences.Controllers
         {
             try
             {
-                var res = _provider.Aggregation(request?.query, request?.country, request?.type, request?.tech);
+                var res = _provider.Aggregation(request?.query, request?.countryId, request?.type, request?.topicId);
 
                 return Json(new
                 {

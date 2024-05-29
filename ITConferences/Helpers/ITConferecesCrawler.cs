@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using ITConferences.Enums;
+using ITConferences.Managers;
 using ITConferences.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,16 +11,19 @@ namespace ITConferences.Helpers
 {
     public class ITConferecesCrawler
 	{
-		public static Dictionary<SourceType, string> LinkSources = new Dictionary<SourceType, string>()
+		public static Dictionary<Crawler, string> LinkSources = new Dictionary<Crawler, string>()
 		{
-			{ SourceType.DevEvents, "https://dev.events/"},
-			{ SourceType.Polytechnique, "https://www.lix.polytechnique.fr/~hermann/conf.php"}
+			{ Crawler.DevEvents, "https://dev.events/"},
+			{ Crawler.Polytechnique, "https://www.lix.polytechnique.fr/~hermann/conf.php"}
 		};
 
-		public static List<ITConferenceModel> CrawlDevEvents(int page, out int totalCount)
+		public static List<ITConferenceModel> CrawlDevEvents(int page, out int totalCount, ref List<CountryModel> Countries, ref List<TopicModel> Topics)
 		{
 			totalCount = 0;
 			var results = new List<ITConferenceModel>();
+
+			Countries = Countries ?? new List<CountryModel>();
+			Topics = Topics ?? new List<TopicModel>();
 
 			using (HttpClient httpClient = new HttpClient())
 			{
@@ -60,13 +64,13 @@ namespace ITConferences.Helpers
 											{
 												vmData = new ITConferenceModel();
 
-												vmData.source = Enums.SourceType.DevEvents;
+												vmData.crawler = Enums.Crawler.DevEvents;
 												var date = DateTime.Now;
 												vmData.crawlDate = new DateTime(date.Year, date.Month, date.Day, date.Hour, date.Minute, date.Second);
 
 												if (jsonData.ContainsKey("name"))
 												{
-													vmData.name = jsonData["name"]?.ToString();
+													vmData.conferenceName = jsonData["name"]?.ToString();
 												}
 
 												if (jsonData.ContainsKey("description"))
@@ -115,7 +119,27 @@ namespace ITConferences.Helpers
 
 													if (jsonData["location"]["address"] != null)
 													{
-														vmData.country = jsonData["location"]["address"]["addressRegion"]?.ToString();
+														var countryName =  GetString(jsonData["location"]["address"]["addressRegion"]?.ToString());
+														
+														if (!string.IsNullOrEmpty(countryName))
+														{
+															var country = Countries.Find(t => t.countryName == countryName);
+
+															if (country != null)
+															{
+																vmData.countryId = country.id;
+															}
+															else
+															{
+																int id = 1;
+																var last = Countries.OrderBy(t => t.id).LastOrDefault();
+																if (last != null) id = last.id + 1;
+
+																country = new CountryModel(id, countryName);
+																vmData.countryId = id;
+																Countries.Add(country);
+															}
+														}
 													}
 												}
 											}
@@ -139,7 +163,27 @@ namespace ITConferences.Helpers
 
                                                             if (linkTech != null)
                                                             {
-                                                                vmData.tech = GetString(linkTech.InnerText);
+                                                                var topicName = GetString(linkTech.InnerText);
+
+																if (!string.IsNullOrEmpty(topicName))
+																{
+                                                                    var topic = Topics.Find(t => t.topicName == topicName);
+
+                                                                    if (topic != null)
+                                                                    {
+                                                                        vmData.topicId = topic.id;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        int id = 1;
+                                                                        var last = Topics.OrderBy(t => t.id).LastOrDefault();
+                                                                        if (last != null) id = last.id + 1;
+
+                                                                        topic = new TopicModel(id, topicName);
+                                                                        vmData.topicId = id;
+                                                                        Topics.Add(topic);
+                                                                    }
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -188,11 +232,14 @@ namespace ITConferences.Helpers
 			return results;
 		}
 
-		public static List<ITConferenceModel> CrawlPolytechnique()
+		public static List<ITConferenceModel> CrawlPolytechnique(ref List<CountryModel> Countries, ref List<TopicModel> Topics)
 		{
 			var results = new List<ITConferenceModel>();
 
-			using (HttpClient httpClient = new HttpClient())
+            Countries = Countries ?? new List<CountryModel>();
+			Topics = Topics ?? new List<TopicModel>();
+
+            using (HttpClient httpClient = new HttpClient())
 			{
 				var getData = httpClient.GetStringAsync($"https://www.lix.polytechnique.fr/~hermann/conf.php");
 
@@ -233,7 +280,7 @@ namespace ITConferences.Helpers
 											try
 											{
                                                 vmData = new ITConferenceModel();
-												vmData.source = Enums.SourceType.Polytechnique;
+												vmData.crawler = Enums.Crawler.Polytechnique;
 												var dateNow = DateTime.Now;
 												vmData.crawlDate = new DateTime(dateNow.Year, dateNow.Month, dateNow.Day, dateNow.Hour, dateNow.Minute, dateNow.Second);
 
@@ -247,7 +294,7 @@ namespace ITConferences.Helpers
 														if (link != null)
 														{
 															vmData.link = link.GetAttributeValue("href", "");
-															vmData.name = GetString(link.InnerText);
+															vmData.conferenceName = GetString(link.InnerText);
 														}
 
 														if (span != null)
@@ -263,8 +310,28 @@ namespace ITConferences.Helpers
 															var slipts = col.InnerText.Split(',');
 															if (slipts.Length > 1)
 															{
-																vmData.country = GetString(slipts.LastOrDefault());
-															}
+																var countryName = GetString(slipts.LastOrDefault());
+
+                                                                if (!string.IsNullOrEmpty(countryName))
+                                                                {
+                                                                    var country = Countries.Find(t => t.countryName == countryName);
+
+                                                                    if (country != null)
+                                                                    {
+                                                                        vmData.countryId = country.id;
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        int id = 1;
+                                                                        var last = Countries.OrderBy(t => t.id).LastOrDefault();
+                                                                        if (last != null) id = last.id + 1;
+
+                                                                        country = new CountryModel(id, countryName);
+                                                                        vmData.countryId = id;
+                                                                        Countries.Add(country);
+                                                                    }
+                                                                }
+                                                            }
 														}
 													}
 													else if (col.HasClass("date"))

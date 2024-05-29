@@ -1,6 +1,6 @@
 ﻿namespace ITConferences.Enums
 {
-    public enum SourceType
+    public enum Crawler
     {
         DevEvents = 1,
         Polytechnique = 2

@@ -56,7 +56,7 @@
                                         ${generateTime(item.startDate, item.endDate)}
                                     </div>
                                     <div class="right col-md-8">
-                                        <a class="name" href="${item.link}" target="_blank">${item.name}</a>
+                                        <a class="name" href="${item.link}" target="_blank">${item.conferenceName}</a>
                                         <div class="description">${item.description}</div>
                                         <ul class="info">
                                           <li><i class="fa fa-map-marker-alt"></i> ${item.location || '---'}</li>
@@ -136,22 +136,22 @@
                     template.append('<h6>' + item.name + '</h6>');
                     template.append('<ul></ul>');
 
-                    if (item.aggregations && typeof item.aggregations == 'object' && Object.keys(item.aggregations).length > 0)
+                    if (item.aggregations && item.aggregations.length)
                     {
-                        for (let prop in item.aggregations) {
+                        $.each(item.aggregations, function (i, vm) {
 
-                            let checked = prop == CurrentRequest[item.value] ? 'checked' : ''
+                            let checked = vm.value == CurrentRequest[item.value] ? 'checked' : ''
 
                             let li = `<li class="form-check">
-                                        <input class="form-check-input" type="radio" value="${prop}" id="${prop}" name="${item.value}" ${checked} />
-                                        <label class="form-check-label" for="${prop}">
-                                            <span>${prop}</span>
-                                            <small>${item.aggregations[prop]}</small>
+                                        <input class="form-check-input" type="radio" value="${vm.value}" id="${vm.value}" name="${item.value}" ${checked} />
+                                        <label class="form-check-label" for="${vm.value}">
+                                            <span>${vm.name}</span>
+                                            <small>${vm.count}</small>
                                         </label>
                                     </li>`
 
                             template.find('ul').append(li)
-                        }
+                        })
 
                         aggregations.append(template);
                     }

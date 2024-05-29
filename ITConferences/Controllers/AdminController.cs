@@ -14,7 +14,7 @@ namespace ITConferences.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult Crawler(SourceType type)
+		public JsonResult Crawler(Crawler type)
 		{
 			try
 			{
@@ -37,7 +37,7 @@ namespace ITConferences.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult Delete(SourceType type)
+		public JsonResult Delete(Crawler type)
 		{
 			try
 			{

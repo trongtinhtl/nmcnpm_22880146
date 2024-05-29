@@ -4,11 +4,12 @@
     {
         public string? name { get; set; }
         public object? value { get; set; }
-        public object? aggregations { get; set; }
+		public int count { get; set; }
+        public List<Aggregation>? aggregations { get; set; }
 
         public Aggregation() { }
 
-        public Aggregation(string name, object? value, object aggregations)
+        public Aggregation(string name, object? value, List<Aggregation>? aggregations)
         {
             this.name = name;
             this.value = value;

@@ -12,16 +12,16 @@ namespace ITConferences.Managers
 			_storage = new StorageManager<ITConferenceModel> ("ITConferences.json");
 		}
 
-        public bool Add(List<ITConferenceModel> conferences, bool replace = false, SourceType? type = null)
+        public bool Add(List<ITConferenceModel> conferences, bool replace = false, Crawler? type = null)
         {
             if (conferences != null)
             {
                 if (replace)
                 {
-                    if (type != null && Enum.IsDefined(typeof(SourceType), type))
+                    if (type != null && Enum.IsDefined(typeof(Crawler), type))
                     {
                         var currents = GetAll();
-						currents = currents.Where(t => t.source != type).ToList();
+						currents = currents.Where(t => t.crawler != type).ToList();
                         currents.AddRange(conferences);
 
 						_storage.SaveAll(currents);
@@ -57,7 +57,7 @@ namespace ITConferences.Managers
                 {
                     query = query.Trim().ToLower();
 
-                    conferences = conferences.Where(t => t.name?.ToLower() == query ||
+                    conferences = conferences.Where(t => t.conferenceName?.ToLower() == query ||
                                                           t.location?.ToLower() == query
                                                           ).ToList();
                 }

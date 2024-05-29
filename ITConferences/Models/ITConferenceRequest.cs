@@ -3,9 +3,9 @@
     public class ITConferenceRequest
     {
         public string? query { get; set; }
-        public string? country { get; set; }
+        public int? countryId { get; set; }
         public string? type { get; set; }
-        public string? tech { get; set; }
+        public int? topicId { get; set; }
         public int start { get; set; }
         public int length { get; set; }
     }

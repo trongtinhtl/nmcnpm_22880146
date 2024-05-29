@@ -11,23 +11,34 @@ namespace ITConferences.Providers
 	public class ITConferencesProvider
 	{
 		private ITConferencesManager _manager = new ITConferencesManager();
+        private CountryManager _countryManager = new CountryManager();
+        private TopicManager _topicManager = new TopicManager();
 
-        public CrawlerStatus Crawler(SourceType type)
+        public CrawlerStatus Crawler(Crawler crawler)
 		{
             var result =  new CrawlerStatus();
 
-			if (Enum.IsDefined(typeof(SourceType), type))
+			if (Enum.IsDefined(typeof(Crawler), crawler))
 			{
-                switch (type)
+                var Countries = _countryManager.GetAll();
+                int countryCount = Countries.Count;
+
+                var Topics = _topicManager.GetAll();
+                int topicCount = Topics.Count;
+
+                switch (crawler)
                 {
-                    case SourceType.DevEvents:
+                    case Enums.Crawler.DevEvents:
 						int page = 1;
 						int totalPage = 1;
                         int totalSuccess = 0;
 
                         while (page <= totalPage)
                         {
-                            var res = ITConferecesCrawler.CrawlDevEvents(page, out int totalCount);
+                            countryCount = Countries.Count;
+                            topicCount = Topics.Count;
+
+                            var res = ITConferecesCrawler.CrawlDevEvents(page, out int totalCount, ref Countries, ref Topics);
 
                             if (res.Count > 0)
                             {
@@ -40,7 +51,17 @@ namespace ITConferences.Providers
                                     }
                                 }
 
-                                _manager.Add(res, page == 1, type);
+                                _manager.Add(res, page == 1, crawler);
+
+                                if (Countries.Count != countryCount)
+                                {
+                                    _countryManager.Save(Countries);
+                                }
+
+                                if (Topics.Count != topicCount)
+                                {
+                                    _topicManager.Save(Topics);
+                                }
 
                                 totalSuccess += res.Count;
 							}
@@ -55,13 +76,23 @@ namespace ITConferences.Providers
                         result.success = totalSuccess > 0;
                         result.total = totalSuccess;
                         break;
-                    case SourceType.Polytechnique:
-                        var confereces = ITConferecesCrawler.CrawlPolytechnique();
+                    case Enums.Crawler.Polytechnique:
+                        var confereces = ITConferecesCrawler.CrawlPolytechnique(ref Countries, ref Topics);
                         if (confereces.Count > 0)
 						{
-							_manager.Add(confereces, true, type);
+                            _manager.Add(confereces, true, crawler);
 
-							result.lastModified = confereces.LastOrDefault()?.crawlDate;
+                            if (Countries.Count != countryCount)
+                            {
+                                _countryManager.Save(Countries);
+                            }
+
+                            if (Topics.Count != topicCount)
+                            {
+                                _topicManager.Save(Topics);
+                            }
+
+                            result.lastModified = confereces.LastOrDefault()?.crawlDate;
 							result.success = true;
 							result.total = confereces.Count;
 						}
@@ -79,42 +110,37 @@ namespace ITConferences.Providers
             return result;
 		}
 
-		public bool Delete(SourceType type)
+		public bool Delete(Crawler type)
 		{
-			if (Enum.IsDefined(typeof(SourceType), type))
+			if (Enum.IsDefined(typeof(Crawler), type))
 			{
                 return _manager.Add(new List<ITConferenceModel>(), true, type);
 			}
             else if ((int)type == 0)
             {
                 var currents = _manager.GetAll();
-                currents = currents.Where(t => t.source != 0).ToList();
+                currents = currents.Where(t => t.crawler != 0).ToList();
 				return _manager.Add(currents, true);
 			}
 
 			return false;
 		}
-		public List<ITConferenceModel> GetITConferences(string? query, string? country, string? type, string? tech, out int totalCount, int start = 0, int length = 20)
+		public List<ITConferenceModel> GetITConferences(string? query, int? countryId, string? type, int? topicId, out int totalCount, int start = 0, int length = 20)
 		{
 			var results = _manager.Get(query);
 
 			if (results?.Count > 0)
 			{
-				if (!string.IsNullOrEmpty(country))
+                results = results.OrderBy(t => t.startDate).ToList();
+
+				if (countryId != null)
 				{
-					if (country == "Other")
-					{
-                        results = results.Where(t => string.IsNullOrEmpty(t.country)).ToList();
-                    }
-					else
-					{
-						results = results.Where(t => t.country == country).ToList();
-                    }
-				}
+                    results = results.Where(t => t.countryId == countryId).ToList();
+                }
 
                 if (!string.IsNullOrEmpty(type))
                 {
-                    if (country == "Other")
+                    if (type == "Other")
                     {
                         results = results.Where(t => string.IsNullOrEmpty(t.type)).ToList();
                     }
@@ -124,16 +150,9 @@ namespace ITConferences.Providers
                     }
                 }
 
-                if (!string.IsNullOrEmpty(tech))
+                if (topicId != null)
                 {
-                    if (tech == "Other")
-                    {
-                        results = results.Where(t => string.IsNullOrEmpty(t.tech)).ToList();
-                    }
-                    else
-                    {
-                        results = results.Where(t => t.tech == tech).ToList();
-                    }
+                    results = results.Where(t => t.topicId == topicId).ToList();
                 }
             }
 
@@ -146,22 +165,15 @@ namespace ITConferences.Providers
             return results.GetRange(start, length);
         }
 
-		public List<Aggregation> Aggregation(string? query, string? country, string? type, string? tech)
+		public List<Aggregation> Aggregation(string? query, int? countryId, string? type, int? topicId)
 		{
 			var conferences = _manager.Get(query);
 
             if (conferences?.Count > 0)
             {
-                if (!string.IsNullOrEmpty(country))
+                if (countryId != null)
                 {
-                    if (country == "Other")
-                    {
-                        conferences = conferences.Where(t => string.IsNullOrEmpty(t.country)).ToList();
-                    }
-                    else
-                    {
-                        conferences = conferences.Where(t => t.country == country).ToList();
-                    }
+                    conferences = conferences.Where(t => t.countryId == countryId).ToList();
                 }
 
                 if (!string.IsNullOrEmpty(type))
@@ -176,29 +188,77 @@ namespace ITConferences.Providers
                     }
                 }
 
-                if (!string.IsNullOrEmpty(tech))
+                if (topicId != null)
                 {
-                    if (tech == "Other")
-                    {
-                        conferences = conferences.Where(t => string.IsNullOrEmpty(t.tech)).ToList();
-                    }
-                    else
-                    {
-                        conferences = conferences.Where(t => t.tech == tech).ToList();
-                    }
+                    conferences = conferences.Where(t => t.topicId == topicId).ToList();
                 }
             }
 
             if (conferences == null) conferences = new List<ITConferenceModel>();
 
+            var Countries = _countryManager.GetAll();
+            var Topics = _topicManager.GetAll();
+
             var types = conferences.GroupBy(t => t.type).ToDictionary(t => t.Key ?? "Other", t => t.Count());
-            var countries = conferences.GroupBy(t => t.country).ToDictionary(t => t.Key ?? "Other", t => t.Count());
-            var techs = conferences.GroupBy(t => t.tech).ToDictionary(t => t.Key ?? "Other", t => t.Count());
+            var countries = conferences.GroupBy(t => t.countryId).ToDictionary(t => t.Key, t => t.Count());
+            var topics = conferences.GroupBy(t => t.topicId).ToDictionary(t => t.Key, t => t.Count());
+
+            var aggregationTypes = new List<Aggregation>();
+            var aggregationContries = new List<Aggregation>();
+            var aggregationTopics = new List<Aggregation>();
+
+            if (types?.Count > 0)
+            {
+                foreach (var item in types)
+                {
+                    aggregationTypes.Add(new Aggregation()
+                    {
+                        name = item.Key,
+                        value = item.Key,
+                        count = item.Value
+                    });
+                }
+            }
+
+            if (countries?.Count > 0)
+            {
+                foreach (var item in countries)
+                {
+                    var countryName = item.Key > 0 ? item.Key.ToString() : "Unknown country";
+                    var country = Countries.Find(t => t.id == item.Key);
+                    if (!string.IsNullOrEmpty(country?.countryName)) countryName = country.countryName;
+
+                    aggregationContries.Add(new Aggregation()
+                    {
+                        name = countryName,
+                        value = item.Key,
+                        count = item.Value
+                    });
+                }
+            }
+
+            if (topics?.Count > 0)
+            {
+                foreach (var item in topics)
+                {
+                    var topicName = item.Key > 0 ? item.Key.ToString() : "Unknown topic";
+                    var topic = Topics.Find(t => t.id == item.Key);
+                    if (!string.IsNullOrEmpty(topic?.topicName)) topicName = topic.topicName;
+
+                    aggregationTopics.Add(new Aggregation()
+                    {
+                        name = topicName,
+                        value = item.Key,
+                        count = item.Value
+                    });
+                }
+            }
+
             return new List<Aggregation>()
             {
-                new Aggregation("Type", "type", types),
-                new Aggregation("Tech/Languge", "tech", techs),
-                new Aggregation("Country", "country", countries),
+                new Aggregation("Type", "type", aggregationTypes),
+                new Aggregation("Topic", "topicId", aggregationTopics),
+                new Aggregation("Country", "countryId", aggregationContries),
             };
         }
 
@@ -207,9 +267,9 @@ namespace ITConferences.Providers
             var aggregations = new List<AggregationSource>();
             var conferences = _manager.GetAll();
 
-            var dictionary = conferences.GroupBy(t => t.source).ToDictionary(t => t.Key.ToString(), t => new AggregationCrawlwer(t.Count(), t.FirstOrDefault()?.crawlDate));
+            var dictionary = conferences.GroupBy(t => t.crawler).ToDictionary(t => t.Key.ToString(), t => new AggregationCrawlwer(t.Count(), t.FirstOrDefault()?.crawlDate));
 
-            foreach (SourceType source in Enum.GetValues(typeof(SourceType)))
+            foreach (Crawler source in Enum.GetValues(typeof(Crawler)))
             {
                 AggregationCrawlwer? aggr = new AggregationCrawlwer(0, null);
                 string link = string.Empty;
