@@ -12,16 +12,16 @@ namespace ITConferences.Managers
 			_storage = new StorageManager<ITConferenceModel> ("ITConferences.json");
 		}
 
-        public bool Add(List<ITConferenceModel> conferences, bool replace = false, Crawler? type = null)
+        public bool Add(List<ITConferenceModel> conferences, bool replace = false, int? crawlerId = null)
         {
             if (conferences != null)
             {
                 if (replace)
                 {
-                    if (type != null && Enum.IsDefined(typeof(Crawler), type))
+                    if (crawlerId > 0)
                     {
                         var currents = GetAll();
-						currents = currents.Where(t => t.crawler != type).ToList();
+						currents = currents.Where(t => t.crawlerId != crawlerId).ToList();
                         currents.AddRange(conferences);
 
 						_storage.SaveAll(currents);

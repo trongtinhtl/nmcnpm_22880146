@@ -261,6 +261,7 @@
             }
         },
         Form: {
+            IsUpdateForm: false,
             getFormValue: function (form) {
                 if (typeof (form) === 'string') {
                     var elementId = (form[0] !== "#") ? "#" + form : form
@@ -341,6 +342,8 @@
             },
             clearFormData: function (form) {
 
+                this.IsUpdateForm = true;
+
                 if (typeof (form) != 'object') {
                     if (form[0] != "#") {
                         form = "#" + form;
@@ -389,6 +392,8 @@
                 });
 
                 form.data('hiddenData', null);
+
+                this.IsUpdateForm = false;
             },
             bindFormData: function (form, data) {
                 if (typeof (form) != 'object') {

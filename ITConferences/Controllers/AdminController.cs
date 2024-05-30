@@ -1,4 +1,5 @@
 ﻿using ITConferences.Enums;
+using ITConferences.Models;
 using ITConferences.Providers;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,19 +7,19 @@ namespace ITConferences.Controllers
 {
 	public class AdminController : Controller
 	{
-		private ITConferencesProvider _provider =  new ITConferencesProvider();
-
-		public IActionResult Index()
+		private ITConferencesProvider _conferenceProvider =  new ITConferencesProvider();
+        private CrawlerProvider _crawlerProvider = new CrawlerProvider();
+        public IActionResult Index()
 		{
 			return View();
 		}
 
 		[HttpPost]
-		public JsonResult Crawler(Crawler type)
+		public JsonResult Crawler(int crawlerId)
 		{
 			try
 			{
-                var res = _provider.Crawler(type);
+                var res = _crawlerProvider.Crawler(crawlerId);
 
 				return Json(new
 				{
@@ -37,11 +38,11 @@ namespace ITConferences.Controllers
 		}
 
 		[HttpPost]
-		public JsonResult Delete(Crawler type)
+		public JsonResult DeleteData(int crawlerId)
 		{
 			try
 			{
-				var res = _provider.Delete(type);
+				var res = _conferenceProvider.Delete(crawlerId);
 
 				return Json(new
 				{
@@ -60,11 +61,11 @@ namespace ITConferences.Controllers
 		}
 
 		[HttpGet]
-        public JsonResult AggregationSource()
+        public JsonResult GetCrawler()
         {
             try
             {
-                var res = _provider.AggregationSource();
+                var res = _crawlerProvider.GetCrawler();
 
                 return Json(new
                 {
@@ -78,6 +79,82 @@ namespace ITConferences.Controllers
                 {
                     success = false,
 					error = ex.Message
+                });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult AddCrawler(Crawler crawler, string crawlerName, string crawlerUrl)
+        {
+            try
+            {
+                var res = _crawlerProvider.AddCrawler(crawler, crawlerName, crawlerUrl);
+
+                return Json(new
+                {
+                    success = true,
+                    value = res
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateCrawler(int id, Crawler crawler, string crawlerName, string crawlerUrl)
+        {
+            try
+            {
+                var res = _crawlerProvider.UpdateCrawler(id, crawler, crawlerName, crawlerUrl);
+
+                return Json(new
+                {
+                    success = true,
+                    value = res
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult DeleteCrawler(int id)
+        {
+            try
+            {
+                var res = _crawlerProvider.DeleteCrawler(id);
+
+                if (res)
+                {
+                    _conferenceProvider.Delete(id);
+                }
+
+                return Json(new
+                {
+                    success = true,
+                    value = res
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
                 });
             }
         }

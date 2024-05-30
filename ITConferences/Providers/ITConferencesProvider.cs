@@ -1,10 +1,5 @@
-﻿using ITConferences.Enums;
-using ITConferences.Helpers;
-using ITConferences.Managers;
+﻿using ITConferences.Managers;
 using ITConferences.Models;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Linq;
 
 namespace ITConferences.Providers
 {
@@ -14,117 +9,22 @@ namespace ITConferences.Providers
         private CountryManager _countryManager = new CountryManager();
         private TopicManager _topicManager = new TopicManager();
 
-        public CrawlerStatus Crawler(Crawler crawler)
+		public bool Delete(int crawlerId)
 		{
-            var result =  new CrawlerStatus();
-
-			if (Enum.IsDefined(typeof(Crawler), crawler))
+			if (crawlerId > 0)
 			{
-                var Countries = _countryManager.GetAll();
-                int countryCount = Countries.Count;
-
-                var Topics = _topicManager.GetAll();
-                int topicCount = Topics.Count;
-
-                switch (crawler)
-                {
-                    case Enums.Crawler.DevEvents:
-						int page = 1;
-						int totalPage = 1;
-                        int totalSuccess = 0;
-
-                        while (page <= totalPage)
-                        {
-                            countryCount = Countries.Count;
-                            topicCount = Topics.Count;
-
-                            var res = ITConferecesCrawler.CrawlDevEvents(page, out int totalCount, ref Countries, ref Topics);
-
-                            if (res.Count > 0)
-                            {
-                                if (page == 1)
-                                {
-                                    if (totalCount > 0)
-                                    {
-                                        totalPage = totalCount / res.Count;
-                                        if (totalCount % res.Count != 0) totalPage++;
-                                    }
-                                }
-
-                                _manager.Add(res, page == 1, crawler);
-
-                                if (Countries.Count != countryCount)
-                                {
-                                    _countryManager.Save(Countries);
-                                }
-
-                                if (Topics.Count != topicCount)
-                                {
-                                    _topicManager.Save(Topics);
-                                }
-
-                                totalSuccess += res.Count;
-							}
-
-                            if (page == totalPage)
-                            {
-                                result.lastModified = res.LastOrDefault()?.crawlDate;
-							}
-                            page++;
-                        }
-
-                        result.success = totalSuccess > 0;
-                        result.total = totalSuccess;
-                        break;
-                    case Enums.Crawler.Polytechnique:
-                        var confereces = ITConferecesCrawler.CrawlPolytechnique(ref Countries, ref Topics);
-                        if (confereces.Count > 0)
-						{
-                            _manager.Add(confereces, true, crawler);
-
-                            if (Countries.Count != countryCount)
-                            {
-                                _countryManager.Save(Countries);
-                            }
-
-                            if (Topics.Count != topicCount)
-                            {
-                                _topicManager.Save(Topics);
-                            }
-
-                            result.lastModified = confereces.LastOrDefault()?.crawlDate;
-							result.success = true;
-							result.total = confereces.Count;
-						}
-                        break;
-                    default:
-                        break;
-                }
-            }
-            else
-            {
-                result.error = "Type not valid!";
-            }
-
-
-            return result;
-		}
-
-		public bool Delete(Crawler type)
-		{
-			if (Enum.IsDefined(typeof(Crawler), type))
-			{
-                return _manager.Add(new List<ITConferenceModel>(), true, type);
+                return _manager.Add(new List<ITConferenceModel>(), true, crawlerId);
 			}
-            else if ((int)type == 0)
+            else if (crawlerId == 0)
             {
                 var currents = _manager.GetAll();
-                currents = currents.Where(t => t.crawler != 0).ToList();
+                currents = currents.Where(t => t.crawlerId != 0).ToList();
 				return _manager.Add(currents, true);
 			}
 
 			return false;
 		}
+
 		public List<ITConferenceModel> GetITConferences(string? query, int? countryId, string? type, int? topicId, out int totalCount, int start = 0, int length = 20)
 		{
 			var results = _manager.Get(query);
@@ -260,39 +160,6 @@ namespace ITConferences.Providers
                 new Aggregation("Topic", "topicId", aggregationTopics),
                 new Aggregation("Country", "countryId", aggregationContries),
             };
-        }
-
-        public List<AggregationSource> AggregationSource()
-        {
-            var aggregations = new List<AggregationSource>();
-            var conferences = _manager.GetAll();
-
-            var dictionary = conferences.GroupBy(t => t.crawler).ToDictionary(t => t.Key.ToString(), t => new AggregationCrawlwer(t.Count(), t.FirstOrDefault()?.crawlDate));
-
-            foreach (Crawler source in Enum.GetValues(typeof(Crawler)))
-            {
-                AggregationCrawlwer? aggr = new AggregationCrawlwer(0, null);
-                string link = string.Empty;
-
-                if (ITConferecesCrawler.LinkSources.ContainsKey(source))
-                {
-                    link = ITConferecesCrawler.LinkSources[source];
-				}
-
-                if (dictionary.ContainsKey(source.ToString()))
-                {
-					aggr = dictionary[source.ToString()];
-                }
-
-                aggregations.Add(new AggregationSource(source.ToString(), source, link, aggr));
-            }
-
-            if (dictionary.ContainsKey("0"))
-            {
-                aggregations.Add(new AggregationSource("Other source", 0, null, dictionary["0"]));
-            }
-
-            return aggregations;
         }
     }
 }

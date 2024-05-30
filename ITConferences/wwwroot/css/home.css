@@ -68,9 +68,10 @@
 
     .conference ul {
         border-top: 1px solid #eee;
-        padding: 15px 0px;
+        padding: 10px 0px;
         display: flex;
-        justify-content: space-between
+        justify-content: space-between;
+        margin: 0
     }
 
     .conference ul li {
@@ -217,40 +218,40 @@
 }
 
 
-.aggregation-source {
+.crawler {
     position: relative;
     margin-bottom: 30px;
     padding-bottom: 30px;
     border-bottom: 1px solid #eee;
 }
 
-    .aggregation-source .left-content{
+    .crawler .left-content{
         display: flex;
         justify-content:center;
         align-items:center;
     }
 
-    .aggregation-source .left-content img {
+    .crawler .left-content img {
         width: 80%;
         height: auto
     }
 
-    .aggregation-source .left-content i {
+    .crawler .left-content i {
         font-size: 5rem;
     }
 
-.aggregation-source .right-content h4 {
+.crawler .right-content h4 {
     font-size: 20px;
     margin-bottom: 5px;
 }
 
-.aggregation-source .right-content .main-button {
+.crawler .right-content .main-button {
     position: absolute;
     right: 0;
     top: 0;
 }
 
-    .aggregation-source .right-content .main-button a {
+    .crawler .right-content .main-button a {
         font-size: 14px;
         color: #fff;
         background-color: #22b3c1;
@@ -266,50 +267,59 @@
         overflow: hidden;
     }
 
-    .aggregation-source .right-content .main-button a:hover {
+    .crawler .right-content .main-button a:hover {
         background-color: #22b3c1;
         border-color: #22b3c1;
         color: #fff;
         opacity: 0.8;
     }
 
-.aggregation-source .right-content p {
+.crawler .right-content p {
     margin: 18px 0px;
 }
 
-.aggregation-source .right-content ul {
+.crawler .right-content ul {
     border-top: 1px solid #eee;
     border-bottom: 1px solid #eee;
     padding: 15px 0px;
 }
 
-    .aggregation-source .right-content ul li {
+    .crawler .right-content ul li {
         display: inline-block;
         width: 32%;
         color: #afafaf;
         font-size: 14px;
     }
 
-        .aggregation-source .right-content ul li:nth-child(2) {
+        .crawler .right-content ul li:nth-child(2) {
             text-align: center;
         }
 
-        .aggregation-source .right-content ul li:last-child {
+        .crawler .right-content ul li:last-child {
             text-align: right;
         }
 
-        .aggregation-source .right-content ul li i {
+        .crawler .right-content ul li i {
             margin-right: 5px;
             font-size: 16px;
         }
 
-.aggregation-source .right-content .text-button {
-    margin-top: 20px;
-}
-
-    .aggregation-source .right-content .text-button a {
-        font-size: 14px;
-        color: #22b3c1;
-        font-weight: 500;
-        transition: all .3s;
+    .crawler .right-content .actions {
+        margin-top: 20px;
+        display: flex;
+        justify-content:space-between;
     }
+
+        .crawler .right-content .actions div a {
+            font-size: 14px;
+            font-weight: 400;
+            /*color: white;*/
+            border-radius: 3px;
+        }
+
+        .crawler .right-content .actions > a {
+            font-size: 14px;
+            color: #22b3c1;
+            font-weight: 500;
+            transition: all .3s;
+        }

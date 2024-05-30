@@ -4,7 +4,7 @@ namespace ITConferences.Models
 {
 	public class ITConferenceModel
 	{
-		public Crawler crawler {  get; set; }
+		public int crawlerId {  get; set; }
 		public DateTime? crawlDate { get; set; }
 		public string? conferenceName { get; set; }
 		public string? description { get; set; }
