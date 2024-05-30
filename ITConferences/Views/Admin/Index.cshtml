@@ -1,9 +1,9 @@
 ﻿@using ITConferences.Enums
 @{
-	ViewData["Title"] = "Admin";
-	ViewData["Header"] = "Crawler Tool";
-	ViewData["SubHeader"] = "Manager data using IT Conferences Crawler Tool";
-
+    ViewData["Title"] = "Admin";
+    ViewData["Header"] = "Crawler Tool";
+    ViewData["SubHeader"] = "Manager data using IT Conferences Crawler Tool";
+    ViewData["Background"] = "about";
     Dictionary<int, string> crawlerDictionary = Enum.GetValues(typeof(Crawler))
                                                        .Cast<Crawler>()
                                                        .ToDictionary(e => (int)e, e => e.ToString());

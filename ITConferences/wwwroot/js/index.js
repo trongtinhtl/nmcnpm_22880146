@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
 
-    const MAX_LENGTH = 10;
+    let MAX_LENGTH = 10;
     let PROGRESSING = false;
 
     let CurrentRequest = {
@@ -9,9 +9,11 @@
         length: 10
     }
 
+    let frmContainer = $("#frmContainer");
     let aggregations = $("#aggregations");
     let container = $("#conferences");
     let loading = $("#loading");
+    let btnSearch = $('#btnSearch');
 
     const getConferences = function(page)
     {
@@ -19,26 +21,26 @@
             const start = (page - 1) * MAX_LENGTH;
             const length = MAX_LENGTH;
 
-            const formData = Utils.Form.getFormValue(aggregations);
+            const formData = Utils.Form.getFormValue(frmContainer);
 
             CurrentRequest = { ...formData, start, length };
+
 
             Utils.Ajax.callAjax("Home/GetITConferences", "POST", { request: CurrentRequest }, function (res)
             {
                 generateConferences(res?.value || [], page, res?.totalCount);
                 setTimeout(function () {
                     PROGRESSING = false;
+                    btnSearch.removeClass('loading');
                     loading.hide();
-                }, 1000)
+                }, 500)
             })
         }
     }
 
     const getAggregation = function () {
 
-        const formData = Utils.Form.getFormValue(aggregations);
-
-        //CurrentRequest = { ...formData, start, length };
+        const formData = Utils.Form.getFormValue(frmContainer);
 
         Utils.Ajax.callAjax("Home/Aggregation", "POST", { request: formData }, function (res) {
             generateAggregation(res?.value)
@@ -76,7 +78,7 @@
         {
             let empty = `<div class="empty-data">
                             <img src="assets/img/no_thing_here.png" />
-                            <p>Data not found! Please contact administrator for infomation</p>
+                            <p>Data not found!</p>
                          </div>`
 
             container.append(empty);
@@ -205,6 +207,33 @@
             getAggregation();
         }
     })
+
+    $('select[name="length"]').on('change', function () {
+        if (this.value) {
+            MAX_LENGTH = this.value;
+
+            getConferences(1);
+        }
+    })
+
+    const delaySearch = function (callback, ms) {
+        var timer = 0;
+        return function () {
+            var context = this, args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () {
+                callback.apply(context, args);
+            }, ms || 0);
+        };
+    }
+
+    $('input[name="query"]').keyup(delaySearch(function (e)
+    {
+        btnSearch.addClass('loading');
+        getConferences(1);
+        getAggregation();
+    }, 700));
+
 
     getConferences(1);
     getAggregation();

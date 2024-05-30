@@ -57,13 +57,24 @@ namespace ITConferences.Managers
                 {
                     query = query.Trim().ToLower();
 
-                    conferences = conferences.Where(t => t.conferenceName?.ToLower() == query ||
-                                                          t.location?.ToLower() == query
+                    conferences = conferences.Where(t => Contain(t.conferenceName, query) ||
+                                                         Contain(t.location, query) ||
+                                                         Contain(t.type, query)
                                                           ).ToList();
                 }
             }
 
             return conferences ?? new List<ITConferenceModel>();
+        }
+
+        public bool Contain(string? value, string query)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value.ToLower().Contains(query);
+            }
+
+            return false;
         }
     }
 }

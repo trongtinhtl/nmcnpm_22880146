@@ -323,3 +323,131 @@
             font-weight: 500;
             transition: all .3s;
         }
+
+
+.inner-form {
+    width: 100%
+}
+
+    .inner-form .input-field {
+        height: 60px;
+        width: 100%;
+        position: relative
+    }
+
+        .inner-form .input-field input {
+            height: 100%;
+            width: 100%;
+            background: 0 0;
+            border: 0;
+            border-bottom: 2px solid rgba(0,133,161,.5);
+            display: block;
+            width: 100%;
+            padding: 10px 32px 10px 70px;
+            font-size: 18px;
+            color: #0085A1;
+            transition: all .2s ease-out,color .2s ease-out
+        }
+
+            .inner-form .input-field input.placeholder {
+                color: #0085A1;
+                font-size: 18px
+            }
+
+            .inner-form .input-field input:-moz-placeholder {
+                color: #0085A1;
+                font-size: 18px
+            }
+
+            .inner-form .input-field input::-webkit-input-placeholder {
+                color: #0085A1;
+                font-size: 18px
+            }
+
+            .inner-form .input-field input:hover, .inner-form .input-field input:focus {
+                box-shadow: none;
+                outline: 0;
+                border-bottom-color: #0085A1
+            }
+
+        .inner-form .input-field .btn-search {
+            width: 70px;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-align: center;
+            align-items: center;
+            position: absolute;
+            left: 0;
+            height: 100%;
+            background: 0 0;
+            border: 0;
+            padding: 0;
+            cursor: pointer
+        }
+
+            .inner-form .input-field .btn-search .loader {
+                display: none;
+                width: 36px;
+                height:36px;
+            }
+
+            .inner-form .input-field .btn-search .loader::after {
+                display: none;
+            }
+
+            .inner-form .input-field .btn-search.loading .loader {
+                display: block;
+            }
+
+
+            .inner-form .input-field .btn-search.loading svg {
+                display: none;
+            }
+
+            .inner-form .input-field .btn-search svg {
+                fill: #0085A1;
+                width: 50px;
+                height: 50px
+            }
+
+            .inner-form .input-field .btn-search:hover, .inner-form .input-field .btn-search:focus {
+                outline: 0;
+                box-shadow: none
+            }
+
+@media screen and (max-width: 767px) {
+    .inner-form .input-field {
+        margin-bottom: 20px;
+        height: 50px
+    }
+
+        .inner-form .input-field input {
+            padding-left: 45px;
+            font-size: 16px
+        }
+
+        .inner-form .input-field .btn-search svg {
+            width: 36px;
+            height: 36px
+        }
+}
+
+
+.length-container{
+    display: flex;
+    gap: 20px;
+    align-items: end;
+}
+
+    .length-container span {
+        font-size: 1rem
+    }
+
+    .length-container select {
+        width: 70px;
+        text-align: center;
+        height: 35px;
+        border: 1px solid #afafaf;
+        border-radius: 3px;
+        font-size: 1rem
+    }
