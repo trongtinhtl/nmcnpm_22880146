@@ -1,4 +1,7 @@
 ﻿@{
+    ViewData["Title"] = "Register";
+    ViewData["Header"] = "Register";
+    ViewData["SubHeader"] = "Join Us today! Create your account";
     ViewData["Background"] = "contact";
 }
 <div class="row gx-4 gx-lg-5 justify-content-center">
@@ -9,7 +12,7 @@
         </div>
         <div class="my-5">
 
-            <form id="loginForm" method="POST" action="@Url.Action("Register", "Account")">
+            <form id="registerForm" method="POST" action="@Url.Action("Register", "Account")">
                 <input type="text" value=@ViewBag.ReturnUrl name="returnUrl" hidden="hidden" />
                 <div class="form-floating">
                     <input class="form-control" id="name" type="text" placeholder="Enter your username..." name="UserName" />
@@ -45,5 +48,5 @@
 </div>
 
 @section Scripts{
-    <script src="~/js/login.js"></script>
+    <script src="~/js/register.js"></script>
 }
