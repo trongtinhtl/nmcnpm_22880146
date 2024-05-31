@@ -48,7 +48,7 @@ namespace ITConferences.Managers
         {
             if (user != null)
             {
-                _storage.Update(t => t.id == user.id, t => { t.email = user.email; t.role = user.role; t.blocked = user.blocked; });
+                _storage.Update(t => t.id == user.id, t => { t.role = user.role; t.blocked = user.blocked; });
                 return true;
             }
             return false;

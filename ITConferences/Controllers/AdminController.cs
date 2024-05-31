@@ -176,6 +176,96 @@ namespace ITConferences.Controllers
                 return Json(new
                 {
                     success = true,
+                    value = res?.Select(t => new UserViewModel(t))
+                }); ;
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AddUser(string userName, string email, string password, string confirmPassword, Role role, bool blocked)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userName)) throw new Exception("Username empty");
+                if (string.IsNullOrEmpty(email)) throw new Exception("Email empty");
+                if (string.IsNullOrEmpty(password)) throw new Exception("Password empty");
+                if (string.IsNullOrEmpty(confirmPassword)) throw new Exception("Confirm password empty");
+                if (confirmPassword != password) throw new Exception("Confirm password not match");
+
+                var user = new ApplicationUser()
+                {
+                    userName = userName,
+                    email = email,
+                    password = password,
+                    role = role,
+                    blocked = blocked
+                };
+
+                var res = _userProvider.AddUser(user, out string errorMessage);
+
+                if (res != null)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        value = new UserViewModel(res)
+                    });
+                }
+
+                throw new Exception(errorMessage ?? "Create account not successfull");
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateUser(int id, Role role, bool blocked)
+        {
+            try
+            {
+                var res = _userProvider.UpdateUser(id, role, blocked);
+
+                return Json(new
+                {
+                    success = true,
+                    value = res != null ? new UserViewModel(res) : null
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+
+        [HttpPost]
+        public JsonResult DeleteUser(int id)
+        {
+            try
+            {
+                var res = _userProvider.DeleteUser(id);
+
+                return Json(new
+                {
+                    success = true,
                     value = res
                 });
             }

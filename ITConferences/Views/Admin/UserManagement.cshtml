@@ -5,10 +5,15 @@
                                                        .ToDictionary(e => (int)e, e => e.ToString());
 }
 
-<div>
-    <table id="tbUsers" class="table">
+<h2 class="py-5">User Management</h2>
+
+<div class="py-5">
+    <div class="pb-3" style="text-align:right">
+        <button class="btn btn-success" id="btnAddUser"><i class="fa fa-plus-circle"></i> Create account</button>
+    </div>
+    <table id="tbUsers" class="table pb-5">
         <thead>
-            <th scope="col">STT</th>
+            <th scope="col">Num.</th>
             <th scope="col">UserName</th>
             <th scope="col">Email</th>
             <th scope="col">Role</th>
@@ -33,22 +38,30 @@
                     <input name="id" type="hidden" />
                     <div class="form-floating">
                         <input class="form-control" id="name" type="text" placeholder="UserName..." name="userName" />
-                        <label for="name">Crawler Name</label>
+                        <label for="name">Username</label>
                         <div class="invalid-feedback">A name is required.</div>
                     </div>
                     <div class="form-floating">
-                        <input class="form-control" id="name" type="text" placeholder="Email..." name="email" />
-                        <label for="name">Crawler Name</label>
+                        <input class="form-control" id="name" type="email" placeholder="Email..." name="email" />
+                        <label for="name">Email</label>
                         <div class="invalid-feedback">A name is required.</div>
                     </div>
-                    <div class="form-floating">
-                        <input class="form-control" id="phone" type="text" placeholder="Password..." name="password" />
-                        <label for="phone">Crawler Url</label>
-                        <div class="invalid-feedback">A url is required.</div>
+
+                    <div class="form-floating password-container">
+                        <input class="form-control" id="phone" type="password" placeholder="Password..." name="password" />
+                        <label for="phone">Password</label>
+                        <div class="invalid-feedback">A password is required.</div>
                     </div>
-                    <div class="">
+
+                    <div class="form-floating password-container">
+                        <input class="form-control" id="phone" type="password" placeholder="Confirm Password..." name="confirmPassword" />
+                        <label for="phone">Confirm Password</label>
+                        <div class="invalid-feedback">A password is required.</div>
+                    </div>
+
+                    <div class="my-3">
                         <label for="name" class="mb-2" style="color: #6c757d;opacity: 0.65;font-size:14px">Role</label>
-                        <select class="form-select" id="" name="crawler">
+                        <select class="form-select" id="" name="role">
                             @foreach (var item in roleDictionary)
                             {
                                 <option value="@item.Key">@item.Value</option>
@@ -65,7 +78,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+                <button type="button" class="btn btn-primary" id="btnSaveUser">Save</button>
             </div>
         </div>
     </div>

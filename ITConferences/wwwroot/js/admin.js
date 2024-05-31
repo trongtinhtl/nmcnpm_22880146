@@ -11,7 +11,7 @@
     let LIST_CRAWLERS = [];
 
     const getCrawlers = function () {
-        Utils.Ajax.callAjax("Admin/GetCrawler", "GET", null, function (res) {
+        Utils.Ajax.callAjax(_WEB_URL + "Admin/GetCrawler", "GET", null, function (res) {
             console.log(res)
             generateCrawler(res?.value);
 
@@ -79,7 +79,7 @@
 
     const addCrawler = function (data) {
         if (data) {
-            Utils.Ajax.callAjax("Admin/AddCrawler", "POST", data, function (res) {
+            Utils.Ajax.callAjax(_WEB_URL + "Admin/AddCrawler", "POST", data, function (res) {
                 if (res && res.value)
                 {
                     Utils.Alertify.success("bl", "Add crawler successfull");
@@ -107,7 +107,7 @@
 
     const updateCrawler = function (data, callback) {
         if (data && data.id) {
-            Utils.Ajax.callAjax("Admin/UpdateCrawler", "POST", data, function (res) {
+            Utils.Ajax.callAjax(_WEB_URL + "Admin/UpdateCrawler", "POST", data, function (res) {
                 if (res && res.value) {
                     Utils.Alertify.success("bl", "Update crawler successfull");
 

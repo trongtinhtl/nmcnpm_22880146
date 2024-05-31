@@ -28,23 +28,23 @@
 
         switch (style) {
             case "default":
-                msgtitle = "Thông báo";
+                msgtitle = "Infomation";
                 icon = "fa fa-adjust";
                 break;
             case "info":
-                msgtitle = "Thông tin";
+                msgtitle = "Infomation";
                 icon = "fa fa-question";
                 break;
             case "warning":
-                msgtitle = "Cảnh báo";
+                msgtitle = "Warning";
                 icon = "fas fa-exclamation-circle";
                 break;
             case "error":
-                msgtitle = "Không thành công";
+                msgtitle = "Not success";
                 icon = "fa fa-exclamation";
                 break;
             case "success":
-                msgtitle = "Thành công";
+                msgtitle = "Success";
                 icon = "fa fa-check";
                 break;
         }

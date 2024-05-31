@@ -40,7 +40,7 @@ namespace ITConferences.Controllers
                 return View(model);
             }
 
-            if (user.password != model.Password)
+            if (user.password != UserProvider.GetMd5Hash(model.Password))
             {
                 ModelState.AddModelError("", "Password not correct");
                 return View(model);
@@ -74,9 +74,9 @@ namespace ITConferences.Controllers
                         role = Enums.Role.User
                     };
 
-                    var success = _provider.AddUser(user, out string errorMessage);
+                    var res = _provider.AddUser(user, out string errorMessage);
 
-                    if (success)
+                    if (res?.id > 0)
                     {
                         return View("Login");
                     }
