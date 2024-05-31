@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITConferences.Controllers
 {
-    //[SessionAuthorize(Role.Admin)]
+    [SessionAuthorize(Role.Admin)]
 	public class AdminController : Controller
 	{
 		private ITConferencesProvider _conferenceProvider =  new ITConferencesProvider();

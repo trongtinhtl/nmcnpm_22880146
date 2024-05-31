@@ -42,7 +42,8 @@
                     {
                         if (isAdmin)
                         {
-                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@Url.Action("Index", "Admin")">Manager</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@Url.Action("Index", "Admin")">Crawler Manager</a></li>
+                            <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="@Url.Action("UserManagement", "Admin")">Account Manager</a></li>
                         }
                         <form method="POST" action="@Url.Action("Logout", "Account")" id="logoutForm"></form>
                         <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="javascript:$('#logoutForm').submit();">Logout</a></li>

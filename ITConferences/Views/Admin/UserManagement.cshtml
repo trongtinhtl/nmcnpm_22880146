@@ -1,5 +1,10 @@
 ﻿@using ITConferences.Enums
 @{
+    ViewData["Title"] = "Admin";
+    ViewData["Header"] = "Account";
+    ViewData["SubHeader"] = "Account management";
+    ViewData["Background"] = "about";
+
     Dictionary<int, string>  roleDictionary = Enum.GetValues(typeof(Role))
                                                        .Cast<Role>()
                                                        .ToDictionary(e => (int)e, e => e.ToString());
