@@ -70,7 +70,7 @@
             })
 
             let count = (page - 1) * MAX_LENGTH + data.length;
-            let counter = `<div class="counter" ${count < total ? 'data-next="' + (page + 1) + '"' : ''}>Hiển thị ${count} trong tổng số ${total}</div>`
+            let counter = `<div class="counter" ${count < total ? 'data-next="' + (page + 1) + '"' : ''}>Showing ${count} out of ${total} conferences</div>`
 
             container.append(counter);
         }
