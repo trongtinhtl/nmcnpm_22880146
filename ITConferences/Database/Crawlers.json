@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "crawler": 1,
+    "crawlerName": "DevEvents",
+    "crawlerUrl": "https://dev.events"
+  },
+  {
+    "id": 2,
+    "crawler": 3,
+    "crawlerName": "Eventyco",
+    "crawlerUrl": "https://www.eventyco.com/events/conferences/tech"
+  }
+]

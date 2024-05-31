@@ -1,0 +1,387 @@
+[
+  {
+    "id": 1,
+    "topicName": "Game dev",
+    "description": null
+  },
+  {
+    "id": 2,
+    "topicName": "Ruby",
+    "description": null
+  },
+  {
+    "id": 3,
+    "topicName": "Fintech",
+    "description": null
+  },
+  {
+    "id": 4,
+    "topicName": "AI / ML",
+    "description": null
+  },
+  {
+    "id": 5,
+    "topicName": "Full-stack",
+    "description": null
+  },
+  {
+    "id": 6,
+    "topicName": "React",
+    "description": null
+  },
+  {
+    "id": 7,
+    "topicName": "Tech",
+    "description": null
+  },
+  {
+    "id": 8,
+    "topicName": "Cybersecurity / InfoSec",
+    "description": null
+  },
+  {
+    "id": 9,
+    "topicName": "Wordpress",
+    "description": null
+  },
+  {
+    "id": 10,
+    "topicName": "Crypto / Blockchain",
+    "description": null
+  },
+  {
+    "id": 11,
+    "topicName": "Cloud",
+    "description": null
+  },
+  {
+    "id": 12,
+    "topicName": "Open Source",
+    "description": null
+  },
+  {
+    "id": 13,
+    "topicName": "DevOps",
+    "description": null
+  },
+  {
+    "id": 14,
+    "topicName": "Agile",
+    "description": null
+  },
+  {
+    "id": 15,
+    "topicName": "Google",
+    "description": null
+  },
+  {
+    "id": 16,
+    "topicName": "Linux / OS",
+    "description": null
+  },
+  {
+    "id": 17,
+    "topicName": "Microsoft",
+    "description": null
+  },
+  {
+    "id": 18,
+    "topicName": "Telecom / 5G",
+    "description": null
+  },
+  {
+    "id": 19,
+    "topicName": "HR / Hiring / Recruiting",
+    "description": null
+  },
+  {
+    "id": 20,
+    "topicName": "SAP",
+    "description": null
+  },
+  {
+    "id": 21,
+    "topicName": "API",
+    "description": null
+  },
+  {
+    "id": 22,
+    "topicName": "Java",
+    "description": null
+  },
+  {
+    "id": 23,
+    "topicName": "Data / Database",
+    "description": null
+  },
+  {
+    "id": 24,
+    "topicName": "Software architecture",
+    "description": null
+  },
+  {
+    "id": 25,
+    "topicName": "Web / Frontend",
+    "description": null
+  },
+  {
+    "id": 26,
+    "topicName": "AWS",
+    "description": null
+  },
+  {
+    "id": 27,
+    "topicName": "IBM",
+    "description": null
+  },
+  {
+    "id": 28,
+    "topicName": "Startup",
+    "description": null
+  },
+  {
+    "id": 29,
+    "topicName": "Django",
+    "description": null
+  },
+  {
+    "id": 30,
+    "topicName": "Testing / QA",
+    "description": null
+  },
+  {
+    "id": 31,
+    "topicName": "SRE",
+    "description": null
+  },
+  {
+    "id": 32,
+    "topicName": "UI / UX",
+    "description": null
+  },
+  {
+    "id": 33,
+    "topicName": "Web3",
+    "description": null
+  },
+  {
+    "id": 34,
+    "topicName": "JavaScript",
+    "description": null
+  },
+  {
+    "id": 35,
+    "topicName": "Android",
+    "description": null
+  },
+  {
+    "id": 36,
+    "topicName": "Docker / Kubernetes",
+    "description": null
+  },
+  {
+    "id": 37,
+    "topicName": "PHP",
+    "description": null
+  },
+  {
+    "id": 38,
+    "topicName": "Azure",
+    "description": null
+  },
+  {
+    "id": 39,
+    "topicName": "Python",
+    "description": null
+  },
+  {
+    "id": 40,
+    "topicName": "Rust",
+    "description": null
+  },
+  {
+    "id": 41,
+    "topicName": "CTO",
+    "description": null
+  },
+  {
+    "id": 42,
+    "topicName": "Scala",
+    "description": null
+  },
+  {
+    "id": 43,
+    "topicName": "Haskell",
+    "description": null
+  },
+  {
+    "id": 44,
+    "topicName": "Golang",
+    "description": null
+  },
+  {
+    "id": 45,
+    "topicName": ".NET",
+    "description": null
+  },
+  {
+    "id": 46,
+    "topicName": "SQL",
+    "description": null
+  },
+  {
+    "id": 47,
+    "topicName": "iOS / Swift",
+    "description": null
+  },
+  {
+    "id": 48,
+    "topicName": "Tech leadership",
+    "description": null
+  },
+  {
+    "id": 49,
+    "topicName": "Postgres",
+    "description": null
+  },
+  {
+    "id": 50,
+    "topicName": "Serverless",
+    "description": null
+  },
+  {
+    "id": 51,
+    "topicName": "Flutter",
+    "description": null
+  },
+  {
+    "id": 52,
+    "topicName": "MongoDB",
+    "description": null
+  },
+  {
+    "id": 53,
+    "topicName": "AR / VR / XR",
+    "description": null
+  },
+  {
+    "id": 54,
+    "topicName": "Mobile",
+    "description": null
+  },
+  {
+    "id": 55,
+    "topicName": "Laravel",
+    "description": null
+  },
+  {
+    "id": 56,
+    "topicName": "Salesforce",
+    "description": null
+  },
+  {
+    "id": 57,
+    "topicName": "Elixir",
+    "description": null
+  },
+  {
+    "id": 58,
+    "topicName": "Scrum",
+    "description": null
+  },
+  {
+    "id": 59,
+    "topicName": "ChatGPT",
+    "description": null
+  },
+  {
+    "id": 60,
+    "topicName": "CIO",
+    "description": null
+  },
+  {
+    "id": 61,
+    "topicName": "Hardware / IoT",
+    "description": null
+  },
+  {
+    "id": 62,
+    "topicName": "Angular",
+    "description": null
+  },
+  {
+    "id": 63,
+    "topicName": "Product management",
+    "description": null
+  },
+  {
+    "id": 64,
+    "topicName": "C/C++",
+    "description": null
+  },
+  {
+    "id": 65,
+    "topicName": "Vue",
+    "description": null
+  },
+  {
+    "id": 66,
+    "topicName": "Project management / PMO",
+    "description": null
+  },
+  {
+    "id": 67,
+    "topicName": "Drupal",
+    "description": null
+  },
+  {
+    "id": 68,
+    "topicName": "IT service management",
+    "description": null
+  },
+  {
+    "id": 69,
+    "topicName": "Functional programming",
+    "description": null
+  },
+  {
+    "id": 70,
+    "topicName": "DDD",
+    "description": null
+  },
+  {
+    "id": 71,
+    "topicName": "IT",
+    "description": null
+  },
+  {
+    "id": 72,
+    "topicName": "Data",
+    "description": null
+  },
+  {
+    "id": 73,
+    "topicName": "Business Networking",
+    "description": null
+  },
+  {
+    "id": 74,
+    "topicName": "Game",
+    "description": null
+  },
+  {
+    "id": 75,
+    "topicName": "Security",
+    "description": null
+  },
+  {
+    "id": 76,
+    "topicName": "Artificial Intelligence",
+    "description": null
+  },
+  {
+    "id": 77,
+    "topicName": "VR",
+    "description": null
+  }
+]
