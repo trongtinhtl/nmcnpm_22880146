@@ -6,5 +6,29 @@
     "password": "827ccb0eea8a706c4c34a16891f84e7b",
     "role": 1,
     "blocked": false
+  },
+  {
+    "id": 2,
+    "userName": "tinhpt",
+    "email": "tinhpt@gmail.com",
+    "password": "827ccb0eea8a706c4c34a16891f84e7b",
+    "role": 0,
+    "blocked": false
+  },
+  {
+    "id": 3,
+    "userName": "trongtinh",
+    "email": "trongtinh@gmail.com",
+    "password": "827ccb0eea8a706c4c34a16891f84e7b",
+    "role": 1,
+    "blocked": false
+  },
+  {
+    "id": 4,
+    "userName": "user1",
+    "email": "user1@gmail.com",
+    "password": "827ccb0eea8a706c4c34a16891f84e7b",
+    "role": 0,
+    "blocked": true
   }
 ]

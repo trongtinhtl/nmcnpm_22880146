@@ -18,7 +18,7 @@
             })
         })
     }
-
+    
     const generateRow = function (index, user)
     {
         if (user && typeof user == 'object') {
@@ -28,7 +28,7 @@
                             <td>${user.userName}</td>
                             <td>${user.email}</td>
                             <td class="role">${user.role == 1 ? 'Administrator' : 'User'}</td>
-                            <td class="blocked">${user.blocked ? 'Đã bị khóa' : 'Đang hoạt động'}</td>
+                            <td class="blocked">${user.blocked ? '<span class="badge rounded-pill bg-warning">Blocked</span>' : '<span class="badge rounded-pill bg-primary">Active</span>'}</td>
                             <td>
                                 <a href="javascript:;" class="btn btn-outline-primary btn-sm btnUpdate"><i class="fal fa-edit"></i></a>
                                 <a href="javascript:;" class="btn btn-outline-danger btn-sm btnDelete"><i class="fal fa-trash"></i></a>
@@ -97,7 +97,7 @@
 
                     if (element.length == 1) {
                         element.find('td.role').html(data.role == 1 ? 'Administrator' : 'User')
-                        element.find('td.blocked').html(data.blocked ? 'Đã bị khóa' : 'Đang hoạt động')
+                        element.find('td.blocked').html(data.blocked ? '<span class="badge rounded-pill bg-warning">Blocked</span>' : '<span class="badge rounded-pill bg-primary">Active</span>')
                     }
 
                     mdlUser.modal('hide');
