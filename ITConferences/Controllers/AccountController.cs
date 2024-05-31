@@ -34,7 +34,7 @@ namespace ITConferences.Controllers
 
             ApplicationUser? user = _provider.GetUser(model.UserName);
 
-            if (user == null)
+            if (user == null || user.blocked)
             {
                 ModelState.AddModelError("", "Login unsuccessfull!");
                 return View(model);
@@ -69,6 +69,7 @@ namespace ITConferences.Controllers
                     var user = new ApplicationUser
                     {
                         userName = model.UserName,
+                        email = model.Email,
                         password = model.Password,
                         role = Enums.Role.User
                     };

@@ -167,7 +167,7 @@
         var scroll = $(window).scrollTop();
         var height = container.height();
 
-        if ((scroll > height + 300 || scroll + $(window).height() == $(document).height()) && PROGRESSING == false)
+        if ((scroll > height + 300 || scroll + $(window).height() >= $(document).height() - 10) && PROGRESSING == false)
         {
             let counter = container.find('.counter:last');
 

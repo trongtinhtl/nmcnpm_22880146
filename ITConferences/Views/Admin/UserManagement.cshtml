@@ -1,0 +1,76 @@
+﻿@using ITConferences.Enums
+@{
+    Dictionary<int, string>  roleDictionary = Enum.GetValues(typeof(Role))
+                                                       .Cast<Role>()
+                                                       .ToDictionary(e => (int)e, e => e.ToString());
+}
+
+<div>
+    <table id="tbUsers" class="table">
+        <thead>
+            <th scope="col">STT</th>
+            <th scope="col">UserName</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Status</th>
+            <th scope="col">#</th>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade" id="mdlUser" tabindex="-1" aria-labelledby="mdlTitle" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mdlTitle">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="frmUser">
+                    <input name="id" type="hidden" />
+                    <div class="form-floating">
+                        <input class="form-control" id="name" type="text" placeholder="UserName..." name="userName" />
+                        <label for="name">Crawler Name</label>
+                        <div class="invalid-feedback">A name is required.</div>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" id="name" type="text" placeholder="Email..." name="email" />
+                        <label for="name">Crawler Name</label>
+                        <div class="invalid-feedback">A name is required.</div>
+                    </div>
+                    <div class="form-floating">
+                        <input class="form-control" id="phone" type="text" placeholder="Password..." name="password" />
+                        <label for="phone">Crawler Url</label>
+                        <div class="invalid-feedback">A url is required.</div>
+                    </div>
+                    <div class="">
+                        <label for="name" class="mb-2" style="color: #6c757d;opacity: 0.65;font-size:14px">Role</label>
+                        <select class="form-select" id="" name="crawler">
+                            @foreach (var item in roleDictionary)
+                            {
+                                <option value="@item.Key">@item.Value</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" name="blocked">
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Block user
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="btnSave">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/user.js"></script>
+}

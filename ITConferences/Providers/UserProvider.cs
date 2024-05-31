@@ -17,6 +17,7 @@ namespace ITConferences.Providers
 
                 if (current == null)
                 {
+                    user.id = _manager.GetNextId();
                     _manager.Add(user);
                     return true;
                 }
@@ -55,6 +56,32 @@ namespace ITConferences.Providers
             }
 
             return null;
+        }
+
+        public List<ApplicationUser>? GetUsers(string query)
+        {
+            var users = _manager.GetAll();
+
+            if (!string.IsNullOrEmpty(query) && users?.Count > 0)
+            {
+                query = query.ToLower();
+
+                users = users.Where(t => Contain(t.userName, query) || Contain(t.email, query)).ToList();
+            }
+
+            if (users == null) users = new List<ApplicationUser>();
+
+            return users;
+        }
+
+        private bool Contain(string? value, string query)
+        {
+            if (!string.IsNullOrEmpty(value))
+            {
+                return value.ToLower().Contains(query);
+            }
+
+            return false;
         }
     }
 }

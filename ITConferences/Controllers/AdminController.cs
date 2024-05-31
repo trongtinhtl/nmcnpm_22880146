@@ -5,17 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace ITConferences.Controllers
 {
-    [SessionAuthorize(Role.Admin)]
+    //[SessionAuthorize(Role.Admin)]
 	public class AdminController : Controller
 	{
 		private ITConferencesProvider _conferenceProvider =  new ITConferencesProvider();
         private CrawlerProvider _crawlerProvider = new CrawlerProvider();
+        private UserProvider _userProvider = new UserProvider();
         public IActionResult Index()
 		{
 			return View();
 		}
 
-		[HttpPost]
+        public IActionResult UserManagement()
+        {
+            return View();
+        }
+
+        [HttpPost]
 		public JsonResult Crawler(int crawlerId)
 		{
 			try
@@ -143,6 +149,29 @@ namespace ITConferences.Controllers
                 {
                     _conferenceProvider.Delete(id);
                 }
+
+                return Json(new
+                {
+                    success = true,
+                    value = res
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetUsers(string query)
+        {
+            try
+            {
+                var res = _userProvider.GetUsers(query);
 
                 return Json(new
                 {

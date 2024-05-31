@@ -13,16 +13,23 @@ namespace ITConferences.Managers
 
 			string? rootPath = Path.GetDirectoryName(assemblyLocation);
 
-			if (!string.IsNullOrEmpty(rootPath))
-			{
-				while (!Directory.GetFiles(rootPath, "*.csproj").Any())
-				{
-					rootPath = Directory.GetParent(rootPath)?.FullName;
-				}
-			}
+			//if (!string.IsNullOrEmpty(rootPath))
+			//{
+			//	while (!Directory.GetFiles(rootPath, "*.csproj").Any())
+			//	{
+			//		rootPath = Directory.GetParent(rootPath)?.FullName;
+			//	}
+			//}
 
-			this.FilePath = $"{rootPath}/Database/{fileName}";
-		}
+			var parentPath = Path.Combine(rootPath, "Database");
+
+            if (!Directory.Exists(parentPath))
+            {
+                Directory.CreateDirectory(parentPath);
+            }
+
+            this.FilePath = Path.Combine(parentPath, fileName);
+        }
 
 		public List<T> GetAll()
 		{
