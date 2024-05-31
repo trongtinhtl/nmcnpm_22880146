@@ -3,6 +3,7 @@
     public enum Crawler
     {
         DevEvents = 1,
-        Polytechnique = 2
+        Polytechnique = 2,
+        Eventyco = 3
     }
 }

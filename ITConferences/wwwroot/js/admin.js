@@ -37,6 +37,9 @@
             else if (crawler.crawler == 2) {
                 icon = '<img src="assets/img/polytechnique.png" />';
             }
+            else if (crawler.crawler == 3) {
+                icon = '<img src="assets/img/eventyco.png" />';
+            }
 
             var lastModified = Utils.DateTime.Parser.fromDateTimeString(aggregations?.lastModified)
 

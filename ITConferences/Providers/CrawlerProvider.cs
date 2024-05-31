@@ -97,7 +97,51 @@ namespace ITConferences.Providers
 							result.total = confereces.Count;
 						}
 						break;
-					default:
+                    case Enums.Crawler.Eventyco:
+                        int ePage = 1;
+                        int eTotalPage = 1;
+                        int eTotalSuccess = 0;
+
+                        while (ePage <= eTotalPage)
+                        {
+                            countryCount = Countries.Count;
+                            topicCount = Topics.Count;
+
+                            var res = ITConferecesCrawler.CrawlEventyco(crawler, ePage, out int total, ref Countries, ref Topics);
+
+                            if (res.Count > 0)
+                            {
+                                if (ePage == 1)
+                                {
+                                    eTotalPage = total;
+                                }
+
+                                _conferencesManager.Add(res, ePage == 1, crawlerId);
+
+                                if (Countries.Count != countryCount)
+                                {
+                                    _countryManager.Save(Countries);
+                                }
+
+                                if (Topics.Count != topicCount)
+                                {
+                                    _topicManager.Save(Topics);
+                                }
+
+                                eTotalSuccess += res.Count;
+                            }
+
+                            if (ePage == eTotalPage)
+                            {
+                                result.lastModified = res.LastOrDefault()?.crawlDate;
+                            }
+                            ePage++;
+                        }
+
+                        result.success = eTotalSuccess > 0;
+                        result.total = eTotalSuccess;
+                        break;
+                    default:
 						break;
 				}
 			}
